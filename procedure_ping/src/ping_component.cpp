@@ -19,11 +19,11 @@ protected:
     count_ = 0;
   }
 
-  void statusHandler( boost::shared_ptr<std_msgs::Int32> msg )
+  void statusHandler( const darc::procedure::CallID& call_id,  boost::shared_ptr<std_msgs::Int32> msg )
   {
   }
 
-  void returnHandler( boost::shared_ptr<std_msgs::Int32> msg )
+  void returnHandler( const darc::procedure::CallID& call_id, boost::shared_ptr<std_msgs::Int32> msg )
   {
     ping();
     count_++;
@@ -45,7 +45,7 @@ protected:
 public:
   PingComponent( const std::string& instance_name, darc::Node::Ptr node ) :
     darc::Component(instance_name, node),
-    ping_client_( this, "ping", boost::bind( &PingComponent::returnHandler, this, _1 ), boost::bind( &PingComponent::statusHandler, this, _1 ) ),
+    ping_client_( this, "ping", boost::bind( &PingComponent::returnHandler, this, _1, _2 ), boost::bind( &PingComponent::statusHandler, this, _1, _2 ) ),
     timer_( this, boost::bind(&PingComponent::timerHandler, this), boost::posix_time::seconds(1) ),
     count_(0)
   {

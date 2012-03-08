@@ -16,9 +16,8 @@ int main(int argc, const char* argv[])
   c2->run();
 
   // Set up node connections
-  node->setNodeID(135);
   node->accept("udp://127.0.0.1:5135");
-  node->connect(120, "udp://127.0.0.1:5130");
+  node->connect("udp://127.0.0.1:5130");
 
   // Run Node in main thread
   node->run(true);
